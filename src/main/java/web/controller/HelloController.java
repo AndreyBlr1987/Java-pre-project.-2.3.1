@@ -1,24 +1,68 @@
 package web.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import web.Model.User;
+import web.service.UserService;
+import web.service.UserServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class HelloController {
+	private UserServiceImpl userServiceImpl;
+  @Autowired
+	public HelloController(UserServiceImpl userServiceImpl) {
+		this.userServiceImpl = userServiceImpl;
+	}
 
-	@GetMapping(value = "/")
-	public String printWelcome(ModelMap model) {
-		List<String> messages = new ArrayList<>();
-		messages.add("Hello!");
-		messages.add("I'm Spring MVC application");
-		messages.add("5.2.0 version by sep'19 ");
-		model.addAttribute("messages", messages);
+	@GetMapping("/")
+	public String allUsers(Model model) {
+		List<User> users = userServiceImpl.allUsers();
+		model.addAttribute("usersList", users);
+		return "users";
+	}
+	@GetMapping("/index")
+	public String index() {
 		return "index";
 	}
-	
+	@GetMapping("/hello")
+	public String hello() {
+		return "hello";
+	}
+
+	@GetMapping("/edit/{id}")
+	public String editPage(@PathVariable("id") int id, Model model) {
+		User user = userServiceImpl.getById(id);
+		model.addAttribute("user", user);
+		return "editPage";
+	}
+
+	@PostMapping("/edit")
+	public String editFilm(@ModelAttribute("user") User user) {
+		userServiceImpl.edit(user);
+		return "redirect:/";
+	}
+	@GetMapping(value = "/add")
+	public String addPage() {
+		return"editPage";
+	}
+	@PostMapping(value = "/add")
+	public String addUser(@ModelAttribute("user") User user) {
+		userServiceImpl.add(user);
+		return "redirect:/";
+	}
+
+	@GetMapping(value="/delete/{id}")
+	public String deleteUser(@PathVariable("id") int id) {
+		User user = userServiceImpl.getById(id);
+		userServiceImpl.delete(user);
+		return "redirect:/";
+	}
+
 }
