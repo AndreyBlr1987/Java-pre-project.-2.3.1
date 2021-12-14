@@ -21,15 +21,17 @@
         <td th:utext="${user.getLastname()}">lastname</td>
         <td th:utext="${user.getLogin()}">login</td>
         <td>
-          <a href="/hello">edit</a>
-<!--           <a href="/delete/${user.id}">delete</a>-->
+            <a th:href="@{/edit/{id}(id=${user.getId()})}">Edit</a>
+            <form th:method="GET" th:action="@{/delete/{id}(id=${user.getId()})}">
+                <input type="submit" value="Delete"/>
         </td>
     </tr>
 
 </table>
 
+
 </div>
 <br>
-
+<a href="/add">Create new User</a>
 </body>
 </html>

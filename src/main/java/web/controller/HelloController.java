@@ -27,14 +27,6 @@ public class HelloController {
 		model.addAttribute("usersList", users);
 		return "users";
 	}
-	@GetMapping("/index")
-	public String index() {
-		return "index";
-	}
-	@GetMapping("/hello")
-	public String hello() {
-		return "hello";
-	}
 
 	@GetMapping("/edit/{id}")
 	public String editPage(@PathVariable("id") int id, Model model) {
@@ -44,13 +36,13 @@ public class HelloController {
 	}
 
 	@PostMapping("/edit")
-	public String editFilm(@ModelAttribute("user") User user) {
+	public String editUser(@ModelAttribute("user") User user) {
 		userServiceImpl.edit(user);
 		return "redirect:/";
 	}
 	@GetMapping(value = "/add")
-	public String addPage() {
-		return"editPage";
+	public String addPage(@ModelAttribute("user") User user) {
+		return"new";
 	}
 	@PostMapping(value = "/add")
 	public String addUser(@ModelAttribute("user") User user) {
