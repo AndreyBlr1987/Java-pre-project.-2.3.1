@@ -1,6 +1,6 @@
 
-INSERT INTO users3 VALUES (1, 'ivan', 'ivanov', 'ivanuska');
-INSERT INTO users3 VALUES (2, 'sergey', 'sergeev', 'serega');
+INSERT INTO users3  VALUES (1, 'ivanov', 'IVANUSHKA', 'ivan');
+INSERT INTO users3 VALUES (2, 'sergeev', 'SERG', 'sergey');
 
 
 
